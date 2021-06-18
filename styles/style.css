@@ -23,8 +23,7 @@ main {
 
 .top,
 .bottom {
-  /* display: flex; */
-  /* align-content: space-between; */
+  min-height: 67px;
   margin: 50px;
 }
 

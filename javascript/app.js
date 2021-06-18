@@ -464,6 +464,9 @@ const app = {
 
         setTimeout(() => {
           document.querySelector('.gameOver').classList.add('looser');
+          setTimeout(() => {
+            document.querySelector('.gameOver').classList.remove('looser');
+          }, 5000);
         }, 1000);
         // alert('end of game');
       }
@@ -485,19 +488,23 @@ const app = {
     let score = document.querySelector('.score ol'); //selecionamos <ul>
     score.insertAdjacentHTML('afterbegin', li); //añadimos <li> a ul
 
-    this.form();
+    this.form(false);
   },
 
-  form() {
+  form(reset) {
     let button = document.querySelector('.buttonName');
     let name = document.querySelector('#player');
 
     let playerName = document.querySelector('.playerName');
 
-    name.classList.toggle('hidden'); //añadimos clase directamente a playername
-    button.classList.toggle('hidden');
-
-    playerName.classList.toggle('center');
+    if (reset && name.classList.contains('hidden')) {
+      name.classList.toggle('hidden'); //añadimos clase directamente a playername
+      button.classList.toggle('hidden');
+    } else if (!reset) {
+      // playerName.classList.toggle('center');
+      name.classList.toggle('hidden'); //añadimos clase directamente a playername
+      button.classList.toggle('hidden');
+    }
   },
 
   resetGame() {
@@ -512,7 +519,7 @@ const app = {
     this.clearIntervals();
     this.pauseBall = true;
     this.switchedDirection = false;
-    this.form();
+    this.form(true);
     this.framesCounter = 0;
     this.deleteAddLife(false, true);
     this.init();
