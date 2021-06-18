@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Arkanoid game</title>
+  </head>
+
+  <body>
+    <main>
+      <div id="game-board">
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div class="rightpannel">
+        <div class="top">
+          <div class="score">
+            <h2>SCORE</h2>
+            <ol></ol>
+          </div>
+          <div class="music">
+            <input class="buttonMusic button" type="button" value="Music" />
+          </div>
+        </div>
+
+        <div class="bottom">
+          <div class="lifes">
+            <img src="./img/vida.png" alt="" />
+            <img src="./img/vida.png" alt="" />
+            <img src="./img/vida.png" alt="" />
+          </div>
+          <div class="playerName">
+            <input class="buttonReset hidden" type="button" value="reset" />
+          </div>
+          <div class="playerName">
+            <input type="text" name="player" id="player" placeholder="Insert Name" />
+            <input class="buttonName button" type="button" value="Score Name" />
+          </div>
+
+          <!-- <div class="start"></div> -->
+        </div>
+      </div>
+    </main>
+    <div class="gameOver"></div>
+    <script src="./javascript/Player.js"></script>
+    <script src="./javascript/Background.js"></script>
+    <script src="./javascript/Balls.js"></script>
+    <script src="./javascript/Blocks.js"></script>
+    <script src="./javascript/Powers.js"></script>
+    <script src="./javascript/app.js"></script>
+    <script src="./javascript/index.js"></script>
+  </body>
+</html>

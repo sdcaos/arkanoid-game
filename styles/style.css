@@ -1,0 +1,185 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#canvas {
+  background: black;
+  padding-left: 60px;
+}
+
+main {
+  display: flex;
+}
+
+.rightpannel {
+  background: url('../img/fondoGuapo.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.top,
+.bottom {
+  /* display: flex; */
+  /* align-content: space-between; */
+  margin: 50px;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.top div {
+  padding: 0 30px;
+}
+
+.music {
+  display: flex;
+  justify-content: center;
+}
+
+.bottom {
+  margin-top: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* align-content: flex-end; */
+}
+
+.playerName {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.center {
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.titlelogo img {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.lifes img {
+  width: 60px;
+}
+
+.score {
+  color: white;
+  font-size: 15px;
+}
+
+ol {
+  /* list-style: none; */
+  padding: 0px;
+  margin: 0px;
+}
+
+ol li {
+  color: rgb(238, 240, 136);
+  font-weight: bold;
+  /* color: black; */
+  text-shadow: 0px 0px 10px white;
+}
+
+ol li span {
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+.buttonReset,
+.button {
+  padding: 5px 20px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 5px 3px white;
+  background: #034843;
+  color: white;
+}
+
+.gameOver {
+  position: absolute;
+  width: 450px;
+  height: 650px;
+  background: url('../img/loserfinger.jpg') no-repeat;
+  background-size: cover;
+  top: 5%;
+  left: 50%;
+  transform: rotate(20deg);
+  display: none;
+  opacity: 0;
+  /* transform: rotate(20deg); */
+}
+
+/* ----------------------------- */
+
+@keyframes looser {
+  0% {
+    opacity: 0;
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%,
+  60% {
+    opacity: 1;
+    -webkit-transform: rotate(50deg);
+    transform: rotate(50deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  40% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  80% {
+    -webkit-transform: rotate(20deg) translateY(0);
+    transform: rotate(20deg) translateY(0);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translateY(700px);
+    transform: translateY(700px);
+    opacity: 0;
+  }
+}
+
+.looser {
+  animation: 5s hinge 1;
+  animation-name: looser;
+  display: block;
+}
+
+h2 {
+  color: black;
+  text-shadow: 0px 0px 10px white;
+  cursor: pointer;
+}
