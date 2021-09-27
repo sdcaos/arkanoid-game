@@ -19,6 +19,8 @@ const app = {
   pauseBall: true,
   switchedDirection: false,
   level: 0,
+  isMoveRight: false,
+  isMoveLeft: false,
   miStorage: window.localStorage,
   audioContext: new AudioContext(),
   audioNewLife: new Audio('./sounds/life.wav'),
@@ -37,6 +39,7 @@ const app = {
     this.createdInitialSources();
     this.intervalStart();
     this.setScore();
+    // this.movePlayer()
   },
 
   playSound(sound) {
@@ -59,6 +62,7 @@ const app = {
     let intervalID = setInterval(() => {
       this.clearScreen();
       this.drawAll();
+      this.movePlayer();
       this.clearItems();
       this.powers.forEach(elm => elm.move());
       this.checkCollision();
@@ -92,11 +96,22 @@ const app = {
   },
 
   setEventListeners() {
+
     document.addEventListener('keydown', e => {
       if (e.code === 'Space') this.launch();
-      if (e.code === 'ArrowLeft') this.moveLeft(this.switchedDirection);
-      if (e.code === 'ArrowRight') this.moveRight(this.switchedDirection);
+      // if (e.code === 'ArrowLeft') this.moveLeft(this.switchedDirection);
+      // if (e.code === 'ArrowRight') this.moveRight(this.switchedDirection);
+      if (e.code === 'ArrowLeft') this.isMoveLeft = true
+      if (e.code === 'ArrowRight') this.isMoveRight = true
+
     });
+    document.addEventListener('keyup', e => {
+      // if (e.code === 'ArrowLeft') this.moveLeft(this.switchedDirection);
+      // if (e.code === 'ArrowRight') this.moveRight(this.switchedDirection);
+      if (e.code === 'ArrowLeft') this.isMoveLeft = false
+      if (e.code === 'ArrowRight') this.isMoveRight = false
+    });
+
     document.querySelector('.buttonName').addEventListener('click', () => {
       this.addName();
     });
@@ -132,7 +147,6 @@ const app = {
   },
 
   createdInitialSources() {
-    // this.balls = [];
 
     this.background = new Background(this.ctx, this.canvasSize);
 
@@ -175,6 +189,7 @@ const app = {
       this.generatePowderBoxes();
       this.moveAll();
       this.checkCollision();
+      this.movePlayer();
 
       this.clearItems();
       this.gameOver();
@@ -204,27 +219,56 @@ const app = {
     this.powers.forEach(elm => elm.draw(this.framesCounter));
   },
 
-  //elm itera sobre los elementos del array
-  //i itera sobre el valor en si de los índices
 
   moveAll() {
+
     this.balls.forEach(elm => elm.move(elm));
 
     this.powers.forEach(elm => elm.move());
   },
 
+
+  movePlayer() {
+    this.audioContext.resume();
+
+    if (this.switchedDirection) {
+      // move Right pressing left
+      if (this.player.playerPos.x < this.canvasSize.w - this.player.playerSize.w && this.isMoveLeft) {
+        this.player.playerPos.x += 10;
+      }
+      // move LEFT pressing right
+      if (this.player.playerPos.x > 0 && this.isMoveRight) {
+        this.player.playerPos.x -= 10;
+      }
+    }
+
+    if (!this.switchedDirection) {
+
+      if (this.player.playerPos.x > 0 && this.isMoveLeft) {
+        this.player.playerPos.x -= 10;
+      }
+
+      // move right
+      if (this.player.playerPos.x < this.canvasSize.w - this.player.playerSize.w && this.isMoveRight) {
+        this.player.playerPos.x += 10;
+      }
+
+    }
+
+    if (this.pauseBall) this.ballStickToPlayer();
+
+  },
+
   destroyBlock(block) {
     block.destroy = true;
   },
+
   destroyPower(power) {
     power.destroy = true;
   },
 
   clearItems() {
     this.balls = this.balls.filter(ball => ball.ballPos.y < this.canvasSize.h - 13 && ball.ballPos.y > 10 && ball.ballPos.x > 10 && ball.ballPos.x < this.canvasSize.w - 10);
-    // this.balls = this.balls.filter(ball => );
-    // this.balls = this.balls.filter(ball => );
-    // this.balls = this.balls.filter(ball => );
 
     for (let i = 0; i < this.blocks.length; i++) {
       this.blocks[i] = this.blocks[i].filter(elm => elm.blockPos.x <= this.canvasSize.w - elm.blockSize.w - 40 && elm.destroy === false);
@@ -233,42 +277,6 @@ const app = {
   },
 
   // hasta aquí set interval
-
-  moveRight(switched) {
-    this.audioContext.resume();
-
-    // ---------
-    if (!switched && this.player.playerPos.x < this.canvasSize.w - this.player.playerSize.w) {
-      this.player.playerPos.x += 20;
-    }
-    if (switched && this.player.playerPos.x > 40) {
-      this.player.playerPos.x -= 20;
-    }
-
-    if (this.pauseBall) {
-      //
-      this.ballStickToPlayer();
-    }
-  },
-
-  moveLeft(switched) {
-    // -------------------
-
-    this.audioContext.resume();
-
-    // ----------
-
-    if (!switched && this.player.playerPos.x > 0) {
-      this.player.playerPos.x -= 20 - this.level;
-    }
-    if (switched && this.player.playerPos.x < this.canvasSize.w - this.player.playerSize.w) {
-      this.player.playerPos.x += 20 + this.level;
-    }
-
-    if (this.pauseBall) {
-      this.ballStickToPlayer();
-    }
-  },
 
   ballStickToPlayer() {
     this.balls.forEach(elm => (elm.ballPos.x = this.player.playerPos.x + this.player.playerSize.w / 2));
@@ -368,12 +376,14 @@ const app = {
 
   switchControls(block) {
     if (block.blockPowers.switch === 6) {
-      this.playSound(this.audioSwitchDirection);
-      this.switchedDirection = true;
+      if (!this.switchedDirection) {
+        this.playSound(this.audioSwitchDirection);
+        this.switchedDirection = !this.switchedDirection
+        setTimeout(() => {
+          this.switchedDirection = false;
+        }, 9000);
+      }
     }
-    setTimeout(() => {
-      this.switchedDirection = false;
-    }, 9000);
   },
 
   speedUp(block) {

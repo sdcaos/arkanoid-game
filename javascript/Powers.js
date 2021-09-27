@@ -5,16 +5,14 @@ class Powers {
     this.powerPos = { x: powerPosx, y: -30 };
     this.powerSize = { w: 60, h: 60 };
     this.powerSpeed = 2;
-    (this.destroy = false),
-      ((this.image = new Image()),
-      (this.image.src = './img/regalos.png'),
-      (this.image.frames = 4),
-      (this.image.framesIndex = 0),
-      (this.randomPower = Math.floor(Math.random() * (4 - 1) + 1))),
-      this.init();
+    this.destroy = false
+    this.image = new Image()
+    this.image.src = './img/regalos.png'
+    this.image.frames = 4
+    this.image.framesIndex = 0
+    this.randomPower = Math.floor(Math.random() * (4 - 1) + 1)
   }
 
-  init() {}
 
   draw(frames) {
     this.ctx.drawImage(
